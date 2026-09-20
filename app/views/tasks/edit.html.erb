@@ -1,0 +1,20 @@
+<%= turbo_frame_tag dom_id(@task) do %>
+
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+
+    <div class="mb-4 flex items-center justify-between">
+      <h2 class="text-xl font-bold">
+        Edit Task
+      </h2>
+
+      <%= link_to "Cancel",
+					tasks_path,
+					data: { turbo_frame: "_top" },
+					class: "text-sm text-gray-500 hover:text-gray-700" %>
+    </div>
+
+    <%= render "form", task: @task %>
+
+  </div>
+
+<% end %>

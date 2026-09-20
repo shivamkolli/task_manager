@@ -1,0 +1,57 @@
+<%= form_with model: task,
+    data: { action: "turbo:submit-end->modal#closeAfterSubmit" } do |form| %>
+
+  <% if task.errors.any? %>
+    <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700">
+      <ul>
+        <% task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :title, class: "mb-2 block font-medium" %>
+
+    <%= form.text_field :title,
+        class: "w-full rounded-lg border p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :description, class: "mb-2 block font-medium" %>
+
+    <%= form.text_area :description,
+        rows: 4,
+        class: "w-full rounded-lg border p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :priority, class: "mb-2 block font-medium" %>
+
+    <%= form.select :priority,
+        Task::PRIORITIES.map { |p| [p.humanize, p] },
+        {},
+        class: "rounded-lg border p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :status, class: "mb-2 block font-medium" %>
+
+    <%= form.select :status,
+        Task::STATUSES.map { |s| [s.humanize, s] },
+        {},
+        class: "rounded-lg border p-2" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :due_date, class: "mb-2 block font-medium" %>
+
+    <%= form.date_field :due_date,
+        class: "rounded-lg border p-2" %>
+  </div>
+
+  <%= form.submit task.new_record? ? "Create Task" : "Update Task",
+			class: "rounded-lg bg-black px-4 py-2 text-white" %>
+
+<% end %>

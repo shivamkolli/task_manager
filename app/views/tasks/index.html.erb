@@ -1,0 +1,201 @@
+<div
+  data-controller="modal task-filter"
+  class="mx-auto max-w-4xl p-6"
+>
+
+  <!-- Header -->
+  <div class="mb-6 flex items-center justify-between">
+
+    <h1 class="text-3xl font-bold">
+      Task Manager
+    </h1>
+
+    <button
+      type="button"
+      data-action="click->modal#open"
+      class="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
+    >
+      New Task
+    </button>
+
+  </div>
+
+
+  <!-- New Task Modal -->
+  <div
+    data-modal-target="container"
+    class="fixed inset-0 z-50 hidden bg-black/50"
+  >
+
+    <div class="mx-auto mt-20 max-w-2xl rounded-lg bg-white p-6">
+
+      <div class="mb-4 flex items-center justify-between">
+
+        <h2 class="text-xl font-bold">
+          New Task
+        </h2>
+
+        <button
+          type="button"
+          data-action="click->modal#close"
+          class="text-gray-500 hover:text-gray-800"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <%= render "form", task: Task.new %>
+
+    </div>
+
+  </div>
+
+
+  <!-- Filters -->
+  <div class="mb-6 flex flex-wrap gap-4">
+
+    <!-- Search -->
+    <div class="mb-6">
+      <%= form_with url: tasks_path,
+          method: :get,
+          local: true,
+          class: "flex flex-col gap-2 sm:flex-row" do |form| %>
+
+        <%= form.search_field :query,
+            value: params[:query],
+            placeholder: "Search tasks by title or description...",
+            class: "w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-black focus:outline-none" %>
+
+        <%= form.submit "Search",
+            class: "rounded-lg bg-black px-5 py-2 text-sm text-white hover:bg-gray-800" %>
+
+        <% if params[:query].present? %>
+          <%= link_to "Clear",
+              tasks_path,
+              class: "rounded-lg border border-gray-300 px-5 py-2 text-center text-sm hover:bg-gray-100" %>
+        <% end %>
+
+      <% end %>
+    </div>
+
+    <!-- Status Filter -->
+    <div>
+
+      <%= label_tag :status_filter,
+          "Status",
+          class: "mb-1 block text-sm font-medium text-gray-700" %>
+
+      <select
+        id="status_filter"
+        data-task-filter-target="status"
+        data-action="change->task-filter#filter"
+        class="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+      >
+
+        <option value="all">
+          All statuses
+        </option>
+
+        <% Task::STATUSES.each do |status| %>
+          <option value="<%= status %>">
+            <%= status.humanize %>
+          </option>
+        <% end %>
+
+      </select>
+
+    </div>
+
+
+    <!-- Priority Filter -->
+    <div>
+
+      <%= label_tag :priority_filter,
+          "Priority",
+          class: "mb-1 block text-sm font-medium text-gray-700" %>
+
+      <select
+        id="priority_filter"
+        data-task-filter-target="priority"
+        data-action="change->task-filter#filter"
+        class="rounded-lg border border-gray-300 px-3 py-2 text-sm"
+      >
+
+        <option value="all">
+          All priorities
+        </option>
+
+        <% Task::PRIORITIES.each do |priority| %>
+          <option value="<%= priority %>">
+            <%= priority.humanize %>
+          </option>
+        <% end %>
+
+      </select>
+
+    </div>
+
+
+    <!-- Reset Filters -->
+    <div class="flex items-end">
+
+      <button
+        type="button"
+        data-action="click->task-filter#reset"
+        class="rounded-lg border border-gray-300 px-3 py-2 text-sm hover:bg-gray-100"
+      >
+        Reset
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Tasks -->
+  <div id="tasks">
+
+    <% if @tasks.any? %>
+
+      <%= render @tasks %>
+
+    <% elsif params[:query].present? %>
+
+      <div
+        id="empty-state"
+        class="rounded-xl border border-dashed border-gray-300 p-10 text-center"
+      >
+        <h2 class="text-lg font-semibold text-gray-700">
+          No matching tasks
+        </h2>
+
+        <p class="mt-2 text-sm text-gray-500">
+          Try a different search term.
+        </p>
+
+        <%= link_to "Clear search",
+            tasks_path,
+            class: "mt-4 inline-block rounded-lg bg-black px-4 py-2 text-sm text-white" %>
+      </div>
+
+    <% else %>
+
+      <div
+        id="empty-state"
+        class="rounded-xl border border-dashed border-gray-300 p-10 text-center"
+      >
+        <h2 class="text-lg font-semibold text-gray-700">
+          No tasks yet
+        </h2>
+
+        <p class="mt-2 text-sm text-gray-500">
+          Create your first task to get started.
+        </p>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

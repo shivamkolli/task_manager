@@ -1,0 +1,9 @@
+<%= turbo_stream.prepend "tasks" do %>
+  <%= render @task %>
+<% end %>
+
+<%= turbo_stream.remove "empty-state" %>
+
+<%= turbo_stream.replace "flash" do %>
+  <%= render "layouts/flash" %>
+<% end %>
