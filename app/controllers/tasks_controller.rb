@@ -2,17 +2,17 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[edit update destroy]
 
   def index
-    @tasks = Task.order(created_at: :desc)
+    @tasks = Current.user.tasks.order(created_at: :desc)
 
     @tasks = @tasks.search(params[:query]) if params[:query].present?
   end
 
   def new
-    @task = Task.new
+    @task = Current.user.tasks.new
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = Current.user.tasks.new(task_params)
 
     if @task.save
       respond_to do |format|
@@ -65,7 +65,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Current.user.tasks.find(params[:id])
   end
 
   def task_params

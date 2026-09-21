@@ -1,9 +1,16 @@
 require "rails_helper"
 
 RSpec.describe Task, type: :model do
+  let(:user) do
+    User.create!(
+      email_address: "test@example.com",
+      password: "Password123!"
+    )
+  end
   describe "validations" do
     it "is valid with a title, status, and priority" do
       task = Task.new(
+        user: user,
         title: "Learn RSpec",
         status: "pending",
         priority: "medium"
@@ -14,6 +21,7 @@ RSpec.describe Task, type: :model do
 
     it "is invalid without a title" do
       task = Task.new(
+        user: user,
         title: nil,
         status: "pending",
         priority: "medium"
@@ -25,6 +33,7 @@ RSpec.describe Task, type: :model do
 
     it "is invalid with an unsupported status" do
       task = Task.new(
+        user: user,
         title: "Invalid task",
         status: "unknown",
         priority: "medium"
@@ -38,6 +47,7 @@ RSpec.describe Task, type: :model do
 
     it "is invalid with an unsupported priority" do
       task = Task.new(
+        user: user,
         title: "Invalid task",
         status: "pending",
         priority: "urgent"
@@ -79,6 +89,7 @@ RSpec.describe Task, type: :model do
   describe ".search" do
     let!(:rails_task) do
       Task.create!(
+        user: user,
         title: "Learn Ruby on Rails",
         description: "Study Rails architecture",
         status: "pending",
@@ -88,6 +99,7 @@ RSpec.describe Task, type: :model do
 
     let!(:python_task) do
       Task.create!(
+        user: user,
         title: "Learn Python",
         description: "Study Python fundamentals",
         status: "pending",

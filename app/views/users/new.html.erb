@@ -1,0 +1,49 @@
+<div class="mx-auto mt-12 max-w-md rounded-xl border bg-white p-6 shadow-sm">
+  <h1 class="mb-6 text-2xl font-bold">Create Account</h1>
+
+  <% if @user.errors.any? %>
+    <div class="mb-4 rounded-lg bg-red-50 p-4 text-red-700">
+      <ul>
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: @user, url: users_path do |form| %>
+    <div class="mb-4">
+      <%= form.label :email_address, class: "mb-2 block font-medium" %>
+
+      <%= form.email_field :email_address,
+          required: true,
+          class: "w-full rounded-lg border p-2" %>
+    </div>
+
+    <div class="mb-4">
+      <%= form.label :password, class: "mb-2 block font-medium" %>
+
+      <%= form.password_field :password,
+          required: true,
+          class: "w-full rounded-lg border p-2" %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :password_confirmation,
+          class: "mb-2 block font-medium" %>
+
+      <%= form.password_field :password_confirmation,
+          required: true,
+          class: "w-full rounded-lg border p-2" %>
+    </div>
+
+    <%= form.submit "Create Account",
+        class: "w-full rounded-lg bg-black px-4 py-2 text-white" %>
+  <% end %>
+
+  <div class="mt-4 text-center text-sm">
+    Already have an account?
+    <%= link_to "Sign in", new_session_path,
+        class: "font-medium text-blue-600" %>
+  </div>
+</div>
