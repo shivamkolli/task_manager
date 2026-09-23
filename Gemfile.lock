@@ -123,11 +123,18 @@ GEM
     ffi (1.17.4-x86_64-darwin)
     ffi (1.17.4-x86_64-linux-gnu)
     ffi (1.17.4-x86_64-linux-musl)
+    fiber-storage (1.0.1)
     fugit (1.14.0)
       et-orbi (~> 1.4)
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
+    graphiql-rails (1.10.5)
+      railties
+    graphql (2.6.11)
+      base64
+      fiber-storage
+      logger
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -430,6 +437,8 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
+  graphiql-rails
+  graphql (~> 2.6)
   image_processing (~> 1.2)
   importmap-rails
   jbuilder

@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Task, type: :model do
   let(:user) do
     User.create!(
-      email_address: "test@example.com",
+      email_address: "test-#{SecureRandom.hex(4)}@example.com",
       password: "Password123!"
     )
   end

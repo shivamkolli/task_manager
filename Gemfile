@@ -45,6 +45,8 @@ gem "image_processing", "~> 1.2"
 
 gem "tailwindcss-rails"
 
+gem "graphql", "~> 2.6"
+
 group :development, :test do
   gem "rspec-rails"
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -70,3 +72,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem "graphiql-rails", group: :development
